@@ -14,7 +14,7 @@ class ColorRegisterActivity : AppCompatActivity() {
     lateinit var edRegisterGreen: EditText
     lateinit var edRegisterBlue: EditText
     lateinit var btnRegisterCadastrar: Button
-    var currentColor: MyColor? = null
+    var recievedColor: MyColor? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,16 +42,16 @@ class ColorRegisterActivity : AppCompatActivity() {
 
     private fun fulfillTextsWithReceivedColorInfo() {
         if(anyColorWasRecieved()) {
-            edRegisterName.setText(currentColor!!.name)
-            edRegisterRed.setText(currentColor!!.red.toString())
-            edRegisterGreen.setText(currentColor!!.green.toString())
-            edRegisterBlue.setText(currentColor!!.blue.toString())
+            edRegisterName.setText(recievedColor!!.name)
+            edRegisterRed.setText(recievedColor!!.red.toString())
+            edRegisterGreen.setText(recievedColor!!.green.toString())
+            edRegisterBlue.setText(recievedColor!!.blue.toString())
         }
     }
 
     private fun anyColorWasRecieved(): Boolean {
-        currentColor =  intent.getSerializableExtra("COLOR") as MyColor?
-        return currentColor != null
+        recievedColor =  intent.getSerializableExtra("COLOR") as MyColor?
+        return recievedColor != null
     }
 
     private fun setBtnRegisterOnClickListener() {
@@ -67,12 +67,14 @@ class ColorRegisterActivity : AppCompatActivity() {
     }
 
     private fun createIntentWithColorInfo(): Intent {
+        val id = recievedColor?.id
         val name = edRegisterName.text.toString()
         val red = edRegisterRed.text.toString().toInt()
         val green = edRegisterGreen.text.toString().toInt()
         val blue = edRegisterBlue.text.toString().toInt()
 
         return Intent().apply {
+            putExtra("ID", id)
             putExtra("NAME", name)
             putExtra("RED", red)
             putExtra("GREEN", green)
